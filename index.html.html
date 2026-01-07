@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Musical - Live Show</title>
+    <style>
+        :root { --primary: #ffd700; --bg: #121212; --card: #1e1e1e; --text: #ffffff; --accent: #2ecc71; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 15px; text-align: center; }
+        h2 { color: var(--primary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
+        .subtitle { margin-bottom: 20px; opacity: 0.8; font-size: 0.9em; }
+        
+        .search-container { position: sticky; top: 0; background: var(--bg); padding: 10px 0; z-index: 10; }
+        .search-box { width: 100%; max-width: 400px; padding: 15px; border-radius: 30px; border: 2px solid #333; background: #222; color: white; outline: none; font-size: 16px; }
+        .search-box:focus { border-color: var(--primary); }
+        
+        .category-title { text-align: left; color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 5px; margin: 30px 0 15px 0; font-size: 1.2em; text-transform: uppercase; }
+        
+        .song-card { background: var(--card); margin-bottom: 10px; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .song-info { text-align: left; flex-grow: 1; padding-right: 10px; }
+        .song-info b { display: block; font-size: 1.05em; color: #fff; }
+        .song-info small { color: var(--primary); opacity: 0.9; font-weight: 500; }
+        
+        .btn-order { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); padding: 10px 18px; border-radius: 25px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+        .btn-order:active { background: var(--primary); color: black; }
+
+        /* Modal Estilizado */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; align-items: center; justify-content: center; }
+        .modal-content { background: white; color: black; padding: 25px; border-radius: 25px; width: 85%; max-width: 400px; position: relative; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #999; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1.5px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
+        .btn-confirm { background: var(--accent); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: bold; font-size: 1.1em; cursor: pointer; margin-top: 10px; }
+        
+        #qr-area { display: none; margin-top: 10px; }
+        .pix-box { background: #f8f8f8; padding: 15px; border-radius: 12px; border: 2px dashed #ccc; margin: 15px 0; }
+        .pix-key { font-family: monospace; font-size: 1.2em; font-weight: bold; color: #333; display: block; margin: 5px 0; }
+        .warning { font-size: 0.85em; color: #666; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+    <h2>🎸 CARDÁPIO MUSICAL</h2>
+    <p class="subtitle">Peça sua música e apoie o músico ao vivo!</p>
+
+    <div class="search-container">
+        <input type="text" class="search-box" id="search" placeholder="Buscar música ou artista..." onkeyup="filtrar()">
+    </div>
+
+    <div id="lista-musicas">
+        <h3 class="category-title">Nacional</h3>
+        <script>
+            const musicasNacional = [
+                ["Pais e Filhos", "Legião Urbana"], ["Tempo Perdido", "Legião Urbana"], ["Dezesseis", "Legião Urbana"], ["Indios", "Legião Urbana"], ["Será", "Legião Urbana"], ["Ainda é cedo", "Legião Urbana"],
+                ["Meu Novo Mundo", "CBJR"], ["Zoio De lula", "CBJR"], ["Céu Azul", "CBJR"], ["Tudo que ela gosta de escutar", "CBJR"], ["Pontes Indestrutiveis", "CBJR"],
+                ["O tempo não para", "Cazuza"], ["Exagerado", "Cazuza"],
+                ["Pelados em santos", "Mamonas"], ["Jumento Celestino", "Mamonas"], ["Vira Vira", "Mamonas"], ["Chopis Centis", "Mamonas"], ["Robocop Gay", "Mamonas"], ["Sabado de Sol", "Mamonas"],
+                ["Só Hoje", "J Quest"], ["Do seu Lado", "J Quest"], ["Amor maior", "J Quest"], ["O sol", "J Quest"],
+                ["Por onde andei", "Nando Reis"], ["Luz dos olhos", "Nando Reis"],
+                ["Cowboy fora do lei", "Raul Seixas"], ["Metamorfose Ambulante", "Raul Seixas"], ["Alcapone", "Raul Seixas"], ["Medo da chuva", "Raul Seixas"], ["SOS", "Raul Seixas"], ["Maluco Beleza", "Raul Seixas"],
+                ["Minha Menina", "Mutantes"], ["Rua Augusta", "Mutantes"], ["Ando meio desligado", "Mutantes"],
+                ["Chão de Giz", "Zé Ramalho"], ["Olhos Coloridos", "Sandra de Sá"], ["Telegrama", "Zeca Baleiro"], ["Eu te devoro", "Djavan"],
+                ["Não quero dinheiro", "Tim maia"], ["Gostava tanto de você", "Tim maia"], ["Imunização Racional", "Tim maia"],
+                ["Pescador de Ilusões", "O Rappa"], ["Hey Joe", "O Rappa"], ["Suplica Cearence", "O Rappa"], ["Anjos", "O Rappa"], ["Vapor Barato", "O Rappa"],
+                ["Saideira", "Skank"], ["Vamos Fugir", "Skank"], ["Anunciação", "Alceu Valença"], ["Mulher de fases", "Raimundos"],
+                ["Dias atrás", "CPM 22"], ["Andei Só", "Natiruts"], ["Quero ser feliz também", "Natiruts"], ["Me namora", "Edu Ribeiro"],
+                ["Astronauta de Marmore", "Nenhum de nós"], ["Meu Erro", "Paralamas"], ["Lanterna dos Afogados", "Paralamas"],
+                ["Primeiros Erros", "Capital Inicial"], ["A sua maneira", "Capital Inicial"], ["Natasha", "Capital Inicial"],
+                ["Por você", "Barão Vermelho"], ["Whiskey a Go Go", "Roupa Nova"], ["Eva", "Radio Taxi"],
+                ["Malandragem", "Cassia Eller"], ["Segundo Sol", "Cassia Eller"],
+                ["O papa é pop", "Engenheiros do Hawaii"], ["Era um garoto que como eu", "Engenheiros do Hawaii"],
+                ["Até quando esperar", "Plebe Rude"], ["Epitáfio", "Titãs"], ["Bichos escrotos", "Titãs"], ["Flores", "Titãs"],
+                ["Me chama", "Lobão"], ["Sujeito de Sorte", "Belchior"]
+            ];
+
+            const musicasInternacional = [
+                ["Black", "Pearl Jam"], ["Last Kiss", "Pearl Jam"], ["Soldier of Love", "Pearl Jam"],
+                ["Whole Lotta Love", "Led Zeppelin"], ["Sweet Home Alabama", "Lynyrd Skynyrd"], ["Hotel California", "Eagles"], ["Cocaine", "Eric Clapton"],
+                ["Have you ever seen the rain", "Creedence"], ["Proud Mary", "Creedence"], ["Hey Joe", "Jimi Hendrix"], ["Little Wing", "Jimi Hendrix"],
+                ["Enter Sandman", "Metallica"], ["Don't Let me Down", "Beatles"], ["Twist And Shout", "Beatles"], ["Hey Jude", "Beatles"], ["Come Together", "Beatles"], ["Stand By me", "Beatles"],
+                ["Imagine", "John Lennon"], ["Come as you are", "Nirvana"], ["Smells like teen spirit", "Nirvana"], ["Plush", "Stone Temple Pilots"],
+                ["Smoke on the Water", "Deep Purple"], ["Highway to hell", "AC/DC"], ["Billie Jean", "Michael Jackson"], ["Another Brick in the Wall", "Pink Floyd"],
+                ["Simple Man", "Lynyrd Skynyrd"], ["Satisfaction", "Rolling Stones"], ["Paint it, Black", "Rolling Stones"],
+                ["Born to be Wild", "Steppenwolf"], ["N.I.B", "Black Sabbath"], ["Paranoid", "Black Sabbath"],
+                ["Sunshine of your Love", "Cream"], ["Rock n Roll All Night", "Kiss"], ["Can't Help Falling in Love", "Elvis"], ["Suspicious Minds", "Elvis"]
+            ];
+
+            function renderizar(lista) {
+                lista.forEach(m => {
+                    document.write(`
+                        <div class="song-card">
+                            <div class="song-info"><b>${m[0]}</b><small>${m[1]}</small></div>
+                            <button class="btn-order" onclick="abrirModal('${m[0]} - ${m[1]}')">PEDIR</button>
+                        </div>
+                    `);
+                });
+            }
+            renderizar(musicasNacional);
+        </script>
+
+        <h3 class="category-title">Internacional</h3>
+        <script>renderizar(musicasInternacional);</script>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="fecharModal()">&times;</span>
+            <h3 id="musica-nome">Música</h3>
+            
+            <div id="form-pedido">
+                <input type="text" id="nome-cliente" placeholder="Seu Nome">
+                <input type="number" id="valor-pedido" value="10.00" step="5">
+                <button class="btn-confirm" onclick="enviarPedido()">GERAR PIX</button>
+            </div>
+
+            <div id="qr-area">
+                <p style="color: #2ecc71; font-weight: bold; margin-bottom: 5px;">✅ Pedido enviado ao músico!</p>
+                <p>Pague o Pix para entrar na fila:</p>
+                <div class="pix-box">
+                    <small>CNPJ:</small>
+                    <span class="pix-key">53.645.646/0001-92</span>
+                </div>
+                <p class="warning">O sistema avisará o palco automaticamente via Telegram assim que o pagamento cair.</p>
+                <button class="btn-confirm" style="background:#555" onclick="fecharModal()">VOLTAR AO CARDÁPIO</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filtrar() {
+            let input = document.getElementById('search').value.toLowerCase();
+            let cards = document.getElementsByClassName('song-card');
+            for (let i = 0; i < cards.length; i++) {
+                let txt = cards[i].innerText.toLowerCase();
+                cards[i].style.display = txt.includes(input) ? "flex" : "none";
+            }
+        }
+
+        function abrirModal(musica) {
+            document.getElementById('musica-nome').innerText = musica;
+            document.getElementById('form-pedido').style.display = 'block';
+            document.getElementById('qr-area').style.display = 'none';
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+
+        function enviarPedido() {
+            const nome = document.getElementById('nome-cliente').value;
+            const valor = document.getElementById('valor-pedido').value;
+            const musica = document.getElementById('musica-nome').innerText;
+
+            if(!nome) return alert("Por favor, digite seu nome!");
+
+            // Envia Intenção para o Telegram
+            const token = '8352003104:AAFcLyV7LfxX8jkAnUpdA02LZZufWnn0Cs4';
+            const chat_id = '7985453437';
+            const msg = `👀 *NOVO PEDIDO:*%0A👤 Nome: ${nome}%0A🎵 Música: ${musica}%0A💰 Valor: R$ ${valor}`;
+            
+            fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${msg}&parse_mode=Markdown`);
+
+            document.getElementById('form-pedido').style.display = 'none';
+            document.getElementById('qr-area').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
