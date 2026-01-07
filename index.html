@@ -21,42 +21,22 @@
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #999; }
         .pix-box { background: #f8f8f8; padding: 15px; border-radius: 12px; border: 2px dashed #ccc; margin: 15px 0; font-weight: bold; }
         .btn-confirm { background: var(--accent); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        input[type="number"] { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
     </style>
 </head>
 <body>
     <h2>🎸 CARDÁPIO MUSICAL</h2>
     <div class="search-container"><input type="text" class="search-box" id="search" placeholder="Buscar música..." onkeyup="filtrar()"></div>
+    
     <div id="lista-musicas">
-        <h3 class="category-title">Nacional</h3>
         <script>
-            const nac = [
-                ["Pais e Filhos", "Legião Urbana"], ["Tempo Perdido", "Legião Urbana"], ["Dezesseis", "Legião Urbana"], ["Indios", "Legião Urbana"], ["Será", "Legião Urbana"], ["Ainda é cedo", "Legião Urbana"],
-                ["Meu Novo Mundo", "CBJR"], ["Zoio De lula", "CBJR"], ["Céu Azul", "CBJR"], ["Tudo que ela gosta de escutar", "CBJR"], ["Pontes Indestrutiveis", "CBJR"],
-                ["O tempo não para", "Cazuza"], ["Exagerado", "Cazuza"], ["Pelados em santos", "Mamonas"], ["Jumento Celestino", "Mamonas"], ["Vira Vira", "Mamonas"], ["Chopis Centis", "Mamonas"], ["Robocop Gay", "Mamonas"], ["Sabado de Sol", "Mamonas"],
-                ["Só Hoje", "J Quest"], ["Do seu Lado", "J Quest"], ["Amor maior", "J Quest"], ["O sol", "J Quest"], ["Por onde andei", "Nando Reis"], ["Luz dos olhos", "Nando Reis"],
-                ["Cowboy fora do lei", "Raul Seixas"], ["Metamorfose Ambulante", "Raul Seixas"], ["Alcapone", "Raul Seixas"], ["Medo da chuva", "Raul Seixas"], ["SOS", "Raul Seixas"], ["Maluco Beleza", "Raul Seixas"],
-                ["Minha Menina", "Mutantes"], ["Rua Augusta", "Mutantes"], ["Ando meio desligado", "Mutantes"], ["Chão de Giz", "Zé Ramalho"], ["Olhos Coloridos", "Sandra de Sá"], ["Telegrama", "Zeca Baleiro"], ["Eu te devoro", "Djavan"],
-                ["Não quero dinheiro", "Tim maia"], ["Gostava tanto de você", "Tim maia"], ["Imunização Racional", "Tim maia"], ["Pescador de Ilusões", "O Rappa"], ["Hey Joe", "O Rappa"], ["Suplica Cearence", "O Rappa"], ["Anjos", "O Rappa"], ["Vapor Barato", "O Rappa"],
-                ["Saideira", "Skank"], ["Vamos Fugir", "Skank"], ["Anunciação", "Alceu Valença"], ["Mulher de fases", "Raimundos"], ["Dias atrás", "CPM 22"], ["Andei Só", "Natiruts"], ["Quero ser feliz também", "Natiruts"], ["Me namora", "Edu Ribeiro"],
-                ["Astronauta de Marmore", "Nenhum de nós"], ["Meu Erro", "Paralamas"], ["Lanterna dos Afogados", "Paralamas"], ["Primeiros Erros", "Capital Inicial"], ["A sua maneira", "Capital Inicial"], ["Natasha", "Capital Inicial"],
-                ["Por você", "Barão Vermelho"], ["Whiskey a Go Go", "Roupa Nova"], ["Eva", "Radio Taxi"], ["Malandragem", "Cassia Eller"], ["Segundo Sol", "Cassia Eller"], ["O papa é pop", "Engenheiros do Hawaii"], ["Era um garoto que como eu", "Engenheiros do Hawaii"],
-                ["Até quando esperar", "Plebe Rude"], ["Epitáfio", "Titãs"], ["Bichos escrotos", "Titãs"], ["Flores", "Titãs"], ["Me chama", "Lobão"], ["Sujeito de Sorte", "Belchior"]
-            ];
-            nac.forEach(m => {
-                document.write(`<div class="song-card"><div class="song-info"><b>${m[0]}</b><small>${m[1]}</small></div><button class="btn-order" onclick="abrirModal('${m[0]} - ${m[1]}')">PEDIR</button></div>`);
-            });
-        </script>
-        <h3 class="category-title">Internacional</h3>
-        <script>
-            const inter = [
-                ["Black", "Pearl Jam"], ["Last Kiss", "Pearl Jam"], ["Soldier of Love", "Pearl Jam"], ["Whole Lotta Love", "Led Zeppelin"], ["Sweet Home Alabama", "Lynyrd Skynyrd"], ["Hotel California", "Eagles"], ["Cocaine", "Eric Clapton"],
-                ["Have you ever seen the rain", "Creedence"], ["Proud Mary", "Creedence"], ["Hey Joe", "Jimi Hendrix"], ["Little Wing", "Jimi Hendrix"], ["Enter Sandman", "Metallica"], ["Don't Let me Down", "Beatles"], ["Twist And Shout", "Beatles"], ["Hey Jude", "Beatles"], ["Come Together", "Beatles"], ["Stand By me", "Beatles"],
-                ["Imagine", "John Lennon"], ["Come as you are", "Nirvana"], ["Smells like teen spirit", "Nirvana"], ["Plush", "Stone Temple Pilots"], ["Smoke on the Water", "Deep Purple"], ["Highway to hell", "AC/DC"], ["Billie Jean", "Michael Jackson"], ["Another Brick in the Wall", "Pink Floyd"],
-                ["Simple Man", "Lynyrd Skynyrd"], ["Satisfaction", "Rolling Stones"], ["Paint it, Black", "Rolling Stones"], ["Born to be Wild", "Steppenwolf"], ["N.I.B", "Black Sabbath"], ["Paranoid", "Black Sabbath"], ["Sunshine of your Love", "Cream"], ["Rock n Roll All Night", "Kiss"], ["Can't Help Falling in Love", "Elvis"], ["Suspicious Minds", "Elvis"]
-            ];
-            inter.forEach(m => {
-                document.write(`<div class="song-card"><div class="song-info"><b>${m[0]}</b><small>${m[1]}</small></div><button class="btn-order" onclick="abrirModal('${m[0]} - ${m[1]}')">PEDIR</button></div>`);
-            });
+            const nac = [ ["Pais e Filhos", "Legião"], ["Tempo Perdido", "Legião"], ["Dezesseis", "Legião"], ["Indios", "Legião"], ["Será", "Legião"], ["Ainda é cedo", "Legião"], ["Meu Novo Mundo", "CBJR"], ["Zoio De lula", "CBJR"], ["Céu Azul", "CBJR"], ["Tudo que ela gosta de escutar", "CBJR"], ["Pontes Indestrutiveis", "CBJR"], ["O tempo não para", "Cazuza"], ["Exagerado", "Cazuza"], ["Pelados em santos", "Mamonas"], ["Jumento Celestino", "Mamonas"], ["Vira Vira", "Mamonas"], ["Chopis Centis", "Mamonas"], ["Robocop Gay", "Mamonas"], ["Sabado de Sol", "Mamonas"], ["Só Hoje", "J Quest"], ["Do seu Lado", "J Quest"], ["Amor maior", "J Quest"], ["O sol", "J Quest"], ["Por onde andei", "Nando Reis"], ["Luz dos olhos", "Nando Reis"], ["Cowboy fora do lei", "Raul Seixas"], ["Metamorfose Ambulante", "Raul Seixas"], ["Alcapone", "Raul Seixas"], ["Medo da chuva", "Raul Seixas"], ["SOS", "Raul Seixas"], ["Maluco Beleza", "Raul Seixas"], ["Minha Menina", "Mutantes"], ["Rua Augusta", "Mutantes"], ["Ando meio desligado", "Mutantes"], ["Chão de Giz", "Zé Ramalho"], ["Olhos Coloridos", "Sandra de Sá"], ["Telegrama", "Zeca Baleiro"], ["Eu te devoro", "Djavan"], ["Não quero dinheiro", "Tim maia"], ["Gostava tanto de você", "Tim maia"], ["Imunização Racional", "Tim maia"], ["Pescador de Ilusões", "O Rappa"], ["Hey Joe", "O Rappa"], ["Suplica Cearence", "O Rappa"], ["Anjos", "O Rappa"], ["Vapor Barato", "O Rappa"], ["Saideira", "Skank"], ["Vamos Fugir", "Skank"], ["Anunciação", "Alceu Valença"], ["Mulher de fases", "Raimundos"], ["Dias atrás", "CPM 22"], ["Andei Só", "Natiruts"], ["Quero ser feliz também", "Natiruts"], ["Me namora", "Edu Ribeiro"], ["Astronauta de Marmore", "Nenhum de nós"], ["Meu Erro", "Paralamas"], ["Lanterna dos Afogados", "Paralamas"], ["Primeiros Erros", "Capital Inicial"], ["A sua maneira", "Capital Inicial"], ["Natasha", "Capital Inicial"], ["Por você", "Barão Vermelho"], ["Whiskey a Go Go", "Roupa Nova"], ["Eva", "Radio Taxi"], ["Malandragem", "Cassia Eller"], ["Segundo Sol", "Cassia Eller"], ["O papa é pop", "Engenheiros do Hawaii"], ["Era um garoto que como eu", "Engenheiros do Hawaii"], ["Até quando esperar", "Plebe Rude"], ["Epitáfio", "Titãs"], ["Bichos escrotos", "Titãs"], ["Flores", "Titãs"], ["Me chama", "Lobão"], ["Sujeito de Sorte", "Belchior"] ];
+            const inter = [ ["Black", "Pearl Jam"], ["Last Kiss", "Pearl Jam"], ["Soldier of Love", "Pearl Jam"], ["Whole Lotta Love", "Led Zeppelin"], ["Sweet Home Alabama", "Lynyrd Skynyrd"], ["Hotel California", "Eagles"], ["Cocaine", "Eric Clapton"], ["Have you ever seen the rain", "Creedence"], ["Proud Mary", "Creedence"], ["Hey Joe", "Jimi Hendrix"], ["Little Wing", "Jimi Hendrix"], ["Enter Sandman", "Metallica"], ["Don't Let me Down", "Beatles"], ["Twist And Shout", "Beatles"], ["Hey Jude", "Beatles"], ["Come Together", "Beatles"], ["Stand By me", "Beatles"], ["Imagine", "John Lennon"], ["Come as you are", "Nirvana"], ["Smells like teen spirit", "Nirvana"], ["Plush", "Stone Temple Pilots"], ["Smoke on the Water", "Deep Purple"], ["Highway to hell", "AC/DC"], ["Billie Jean", "Michael Jackson"], ["Another Brick in the Wall", "Pink Floyd"], ["Simple Man", "Lynyrd Skynyrd"], ["Satisfaction", "Rolling Stones"], ["Paint it, Black", "Rolling Stones"], ["Born to be Wild", "Steppenwolf"], ["N.I.B", "Black Sabbath"], ["Paranoid", "Black Sabbath"], ["Sunshine of your Love", "Cream"], ["Rock n Roll All Night", "Kiss"], ["Can't Help Falling in Love", "Elvis"], ["Suspicious Minds", "Elvis"] ];
+
+            document.write('<h3 class="category-title">Nacional</h3>');
+            nac.forEach(m => document.write(`<div class="song-card"><div class="song-info"><b>${m[0]}</b><small>${m[1]}</small></div><button class="btn-order" onclick="abrirModal('${m[0]} - ${m[1]}')">PEDIR</button></div>`));
+            document.write('<h3 class="category-title">Internacional</h3>');
+            inter.forEach(m => document.write(`<div class="song-card"><div class="song-info"><b>${m[0]}</b><small>${m[1]}</small></div><button class="btn-order" onclick="abrirModal('${m[0]} - ${m[1]}')">PEDIR</button></div>`));
         </script>
     </div>
 
@@ -64,11 +44,16 @@
         <div class="modal-content">
             <span class="close-btn" onclick="fecharModal()">&times;</span>
             <h3 id="musica-nome">Música</h3>
-            <div id="qr-area">
-                <p>Faça o Pix para confirmar seu pedido:</p>
-                <div class="pix-box">CNPJ: 53.645.646/0001-92</div>
-                <p style="font-size: 0.8em; color: #666;">O músico receberá uma notificação assim que o pagamento for confirmado.</p>
-                <button class="btn-confirm" onclick="fecharModal()">VOLTAR</button>
+            <div id="form-pedido">
+                <p>Valor da contribuição (mínimo R$ 1,00):</p>
+                <input type="number" id="valor-pedido" value="10.00" min="1.00" step="1.00">
+                <button class="btn-confirm" onclick="verificarValor()">VER CHAVE PIX</button>
+            </div>
+            <div id="qr-area" style="display:none;">
+                <p><b>Chave PIX (CNPJ):</b></p>
+                <div class="pix-box">53.645.646/0001-92</div>
+                <p style="font-size: 0.8em;">O sistema avisará o músico após a confirmação do pagamento.</p>
+                <button class="btn-confirm" style="background:#666" onclick="fecharModal()">VOLTAR</button>
             </div>
         </div>
     </div>
@@ -82,8 +67,23 @@
                 cards[i].style.display = txt.includes(input) ? "flex" : "none";
             }
         }
-        function abrirModal(m) { document.getElementById('musica-nome').innerText = m; document.getElementById('modal').style.display = 'flex'; }
+        function abrirModal(m) { 
+            document.getElementById('musica-nome').innerText = m; 
+            document.getElementById('form-pedido').style.display = 'block';
+            document.getElementById('qr-area').style.display = 'none';
+            document.getElementById('modal').style.display = 'flex'; 
+        }
         function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+        
+        function verificarValor() {
+            const valor = parseFloat(document.getElementById('valor-pedido').value);
+            if (isNaN(valor) || valor < 1.00) {
+                alert("O valor mínimo para pedir uma música é R$ 1,00.");
+            } else {
+                document.getElementById('form-pedido').style.display = 'none';
+                document.getElementById('qr-area').style.display = 'block';
+            }
+        }
     </script>
 </body>
 </html>
